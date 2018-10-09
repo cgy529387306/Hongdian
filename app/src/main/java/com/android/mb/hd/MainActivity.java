@@ -1,7 +1,6 @@
-package com.mb.duoyinggj;
+package com.android.mb.hd;
 
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
@@ -14,23 +13,14 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.avos.avoscloud.AVAnalytics;
-import com.avos.avoscloud.AVOnlineConfigureListener;
-import com.mb.duoying.R;
-
-import org.json.JSONObject;
-
 public class MainActivity extends AppCompatActivity {
     private WebView webView;
-    private String webUrl;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+    private String webUrl = "http://47.106.132.144/hbapp/index.html";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initWebView();
-        initUrlConfig();
     }
 
 
@@ -94,36 +84,15 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    private void initUrlConfig(){
-        AVAnalytics.setOnlineConfigureListener(new AVOnlineConfigureListener() {
-            @Override
-            public void onDataReceived(JSONObject data) {
-                String requestUrl = AVAnalytics.getConfigParams(MainActivity.this, "requestUrl");
-                if (!TextUtils.isEmpty(requestUrl) && !requestUrl.equals(webUrl)){
-                    webUrl = requestUrl;
-                    editor.putString("requestUrl", webUrl);
-                    editor.apply();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        webView.loadUrl(webUrl);
-                    }
-                });
-            }
-        });
-        AVAnalytics.updateOnlineConfig(MainActivity.this);
-    }
 
-    @SuppressLint("CommitPrefEdits")
+    @SuppressLint({"CommitPrefEdits", "AddJavascriptInterface", "SetJavaScriptEnabled"})
     private void initWebView(){
-        sharedPreferences = getSharedPreferences("url_config", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        webUrl = sharedPreferences.getString("requestUrl", "https://dy866.com");
-
         webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(webViewClient);
-        WebSettings webSettings=webView.getSettings();
+        WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);//允许使用js
+        webView.loadUrl(webUrl);
+        webView.addJavascriptInterface(new JsHandler(),"Android");
     }
+
 }

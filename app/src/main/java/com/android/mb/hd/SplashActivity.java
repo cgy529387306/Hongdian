@@ -1,4 +1,4 @@
-package com.mb.duoyinggj;
+package com.android.mb.hd;
 
 
 import android.app.Activity;
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.mb.duoying.R;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.mb.duoyinggj;
+package com.android.mb.hd;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -6,8 +6,6 @@ import android.util.AttributeSet;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-
-import com.mb.duoying.R;
 
 /**
  * Custom progress webView
