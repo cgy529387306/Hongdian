@@ -13,6 +13,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
     private WebView webView;
     private String webUrl = "http://47.106.132.144/hbapp/index.html";
@@ -91,8 +94,11 @@ public class MainActivity extends AppCompatActivity {
         webView.setWebViewClient(webViewClient);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);//允许使用js
-        webView.loadUrl(webUrl);
-        webView.addJavascriptInterface(new JsHandler(),"Android");
+        Map<String,String> headerMap = new HashMap<>();
+        headerMap.put("deviceType","1");
+        webView.loadUrl(webUrl,headerMap);
+        webView.addJavascriptInterface(new JavaScriptInterface(this),
+                "android");
     }
 
 }
