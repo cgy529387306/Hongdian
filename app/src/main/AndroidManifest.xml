@@ -19,6 +19,15 @@
         </activity>
         <activity android:name="com.android.mb.hd.MainActivity"
             android:screenOrientation="portrait" />
+        <activity android:name="com.android.mb.hd.TestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
     </application>
 
 </manifest>
