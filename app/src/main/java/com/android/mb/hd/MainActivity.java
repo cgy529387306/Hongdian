@@ -101,10 +101,11 @@ public class MainActivity extends AppCompatActivity implements JavaScriptInterfa
         webView.setWebViewClient(webViewClient);
         webView.setWebChromeClient(new WebChromeClient());
         WebSettings webSettings = webView.getSettings();
-        webSettings.setSavePassword(false);
+        webSettings.setSavePassword(true);
         webSettings.setSaveFormData(true);
         webSettings.setJavaScriptEnabled(true);//允许使用js
         webSettings.setLoadWithOverviewMode(true);
+        webSettings.setDomStorageEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         Map<String,String> headerMap = new HashMap<>();
         headerMap.put("deviceType","1");
