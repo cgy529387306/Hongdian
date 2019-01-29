@@ -32,7 +32,7 @@ import cn.sharesdk.wechat.friends.Wechat;
 
 public class MainActivity extends AppCompatActivity implements JavaScriptInterface.JsCallbackHandler{
     private WebView webView;
-    private String webUrl = "http://47.106.132.144/hbapp/index.html";
+    private String webUrl = "http://hongbao.5979wenhua.com/hbapp/index.html";
 
     public static final int FILE_CHOOSER_RESULT_CODE = 5173;
     private ValueCallback<Uri> uploadMessage;
