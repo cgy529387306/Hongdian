@@ -37,6 +37,12 @@ public class TestActivity extends FragmentActivity{
                 doLogin(QQ.NAME);
             }
         });
+        findViewById(R.id.btn_open_taobao).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProjectHelper.openTaobao(TestActivity.this);
+            }
+        });
 
         findViewById(R.id.btn_share).setOnClickListener(new View.OnClickListener() {
             @Override

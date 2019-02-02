@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">红点</string>
+    <string name="taobao_app_shop">taobao://shop.m.taobao.com</string>
+    <string name="taobao_app_goods">taobao://item.taobao.com/item.htm?id=%1$s</string>
+    <string name="taobao_web_shop">https://h5.m.taobao.com</string>
+    <string name="taobao_web_goods">https://item.taobao.com/item.htm?id=%1$s</string>
+    <string name="taobao_package_name">com.taobao.taobao</string>
+
+
 </resources>
