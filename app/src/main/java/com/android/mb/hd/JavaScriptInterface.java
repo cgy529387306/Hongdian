@@ -1,6 +1,8 @@
 package com.android.mb.hd;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.webkit.JavascriptInterface;
 
@@ -41,6 +43,16 @@ public class JavaScriptInterface {
     @JavascriptInterface
     public void qqlogin() {
         doLogin(QQ.NAME);
+    }
+
+    @JavascriptInterface
+    public void  callphone(String tel) {
+        if (!TextUtils.isEmpty(tel)){
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            Uri data = Uri.parse("tel:" + tel);
+            intent.setData(data);
+            mContext.startActivity(intent);
+        }
     }
 
 //    @JavascriptInterface
