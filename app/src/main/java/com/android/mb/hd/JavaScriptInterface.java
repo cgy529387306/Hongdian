@@ -96,6 +96,10 @@ public class JavaScriptInterface {
         }
     }
 
+    /**
+     * 登录
+     * @param plat
+     */
     private void doLogin(final String plat){
         Platform platform = ShareSDK.getPlatform(plat);
         platform.setPlatformActionListener(new PlatformActionListener() {
