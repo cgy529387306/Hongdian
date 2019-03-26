@@ -226,20 +226,26 @@ public class JavaScriptInterface {
 
 
     private void showShare(String title,String content,String url,String imageUrl) {
-        OnekeyShare oks = new OnekeyShare();
-        //关闭sso授权
-        oks.disableSSOWhenAuthorize();
-        // title标题，微信、QQ和QQ空间等平台使用
-        oks.setTitle(title);
-        // titleUrl QQ和QQ空间跳转链接
-        oks.setTitleUrl(url);
-        // text是分享文本，所有平台都需要这个字段
-        oks.setText(content);
-        // url在微信、微博，Facebook等平台中使用
-        oks.setUrl(url);
-//        oks.setImageUrl(imageUrl);
-        // 启动分享GUI
-        oks.show(mContext);
+        ShareDialog shareDialog = new ShareDialog(mContext, title, content, url, imageUrl, new PlatformActionListener() {
+            @Override
+            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                Log.d("share","onComplete");
+                Toast.makeText(mContext,"分享成功",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(Platform platform, int i, Throwable throwable) {
+                Log.d("share","onError");
+                Toast.makeText(mContext,"分享失败:"+throwable.getMessage(),Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancel(Platform platform, int i) {
+                Log.d("share","onCancel");
+                Toast.makeText(mContext,"取消分享",Toast.LENGTH_LONG).show();
+            }
+        });
+        shareDialog.show();
     }
 
     private void doWxPay(String AppId,String NonceStr,String Package,String PartnerId,String PrepayId,String Sign,String TimeStamp){
