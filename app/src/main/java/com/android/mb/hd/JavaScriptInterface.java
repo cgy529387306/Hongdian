@@ -169,24 +169,8 @@ public class JavaScriptInterface {
         payThread.start();
     }
 
-//    @JavascriptInterface
-//    public void share(String json) {
-//        try {
-//            if (!TextUtils.isEmpty(json)){
-//                JSONObject jsonObject = new JSONObject(json);
-//                String title = jsonObject.getString("title");
-//                String content = jsonObject.getString("content");
-//                String url = jsonObject.getString("url");
-//                String imageUrl = jsonObject.getString("imageUrl");
-//                showShare(title,content,url,imageUrl);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     @JavascriptInterface
-    public void share(String title,String content,String url,String imgurl) {
+    public void share(String title,String content,String url,String imgurl,String id) {
         showShare(title,content,url,imgurl);
     }
 
@@ -253,7 +237,7 @@ public class JavaScriptInterface {
         oks.setText(content);
         // url在微信、微博，Facebook等平台中使用
         oks.setUrl(url);
-        oks.setImageUrl(imageUrl);
+//        oks.setImageUrl(imageUrl);
         // 启动分享GUI
         oks.show(mContext);
     }

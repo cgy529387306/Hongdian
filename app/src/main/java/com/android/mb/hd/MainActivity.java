@@ -263,7 +263,6 @@ public class MainActivity extends AppCompatActivity implements JavaScriptInterfa
         }
     }
 
-    @Override
     public void aliPayResult(int code) {
         //1:成功 0:失败
         String jsStr = "javascript:aliPayComplete()";
