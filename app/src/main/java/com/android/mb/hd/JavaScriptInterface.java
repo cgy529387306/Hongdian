@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
@@ -29,7 +28,6 @@ import java.util.Map;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
 
@@ -74,6 +72,8 @@ public class JavaScriptInterface {
         void onLoginComplete(String plat,JSONObject jsonObject);
 
         void aliPayResult(int code);
+
+        void shareComplete(String id);
     }
 
     public JavaScriptInterface(Context context,JsCallbackHandler callbackHandler) {
@@ -90,6 +90,16 @@ public class JavaScriptInterface {
     @JavascriptInterface
     public void qqlogin() {
         doLogin(QQ.NAME);
+    }
+
+    @JavascriptInterface
+    public void  callphone(String tel) {
+        if (!TextUtils.isEmpty(tel)){
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            Uri data = Uri.parse("tel:" + tel);
+            intent.setData(data);
+            mContext.startActivity(intent);
+        }
     }
 
 
@@ -171,7 +181,7 @@ public class JavaScriptInterface {
 
     @JavascriptInterface
     public void share(String title,String content,String url,String imgurl,String id) {
-        showShare(title,content,url,imgurl);
+        showShare(title,content,url,imgurl,id);
     }
 
 
@@ -225,12 +235,13 @@ public class JavaScriptInterface {
     }
 
 
-    private void showShare(String title,String content,String url,String imageUrl) {
+    private void showShare(String title, String content, String url, String imageUrl, final String id) {
         ShareDialog shareDialog = new ShareDialog(mContext, title, content, url, imageUrl, new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
                 Log.d("share","onComplete");
                 Toast.makeText(mContext,"分享成功",Toast.LENGTH_LONG).show();
+                mCallbackHandler.shareComplete(id);
             }
 
             @Override

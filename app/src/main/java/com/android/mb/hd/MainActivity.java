@@ -92,18 +92,22 @@ public class MainActivity extends AppCompatActivity implements JavaScriptInterfa
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK) ) {
-            if (webView.canGoBack()) {
-                webView.goBack(); //goBack()表示返回WebView的上一页面
-                return true;
-            }else {
-                if (System.currentTimeMillis() - mLastClickTimeMills > DOUBLE_CLICK_INTERVAL) {
-                    Toast.makeText(MainActivity.this,"再按一次返回退出",Toast.LENGTH_SHORT).show();
-                    mLastClickTimeMills = System.currentTimeMillis();
-                    return true;
+            webView.evaluateJavascript("javascript:getPageStatus()", new ValueCallback<String>() {
+                @Override
+                public void onReceiveValue(String value) {
+                    if ("1".equals(value)){
+                        if (System.currentTimeMillis() - mLastClickTimeMills > DOUBLE_CLICK_INTERVAL) {
+                            Toast.makeText(MainActivity.this,"再按一次返回退出",Toast.LENGTH_SHORT).show();
+                            mLastClickTimeMills = System.currentTimeMillis();
+                        }else{
+                            finish();
+                        }
+                    }else{
+                       loadJs("javascript:routerPageBack()");
+                    }
                 }
-                finish();
-                return true;
-            }
+            });
+            return true;
         }
         return false;
     }
@@ -269,6 +273,12 @@ public class MainActivity extends AppCompatActivity implements JavaScriptInterfa
     public void aliPayResult(int code) {
         //1:成功 0:失败
         String jsStr = "javascript:aliPayComplete()";
+        loadJs(jsStr);
+    }
+
+    @Override
+    public void shareComplete(String id) {
+        String jsStr = "javascript:shareComplete('" + id + "')";
         loadJs(jsStr);
     }
 

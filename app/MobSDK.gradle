@@ -9,7 +9,7 @@ MobSDK {
                 id 1
                 sortId 1
                 appKey "3069678069"
-                appSecret "7486a714be35f8e2858035d74eb4df8e"
+                appSecret "641e96c1c699fed371ade0628b0be67e"
                 callbackUri "http://hongbao.5979wenhua.com/hbapp/index.html"
                 shareByAppClient true
                 enable true

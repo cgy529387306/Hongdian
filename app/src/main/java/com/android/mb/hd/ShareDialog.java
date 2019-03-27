@@ -63,8 +63,8 @@ public class ShareDialog {
         BottomSheetDialog dialog = new BottomSheetDialog(mContext);
         View view = View.inflate(mContext, R.layout.dialog_bottom_share, null);
         dialog.setContentView(view);
-        RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(mContext, 5));
+        RecyclerView recyclerView = dialog.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(new ShareAdapter());
         return dialog;
@@ -76,9 +76,10 @@ public class ShareDialog {
         shareParams.setText(mTitle);
         shareParams.setUrl(mUrl);
         shareParams.setImageUrl(mImageUrl);
-        shareParams.setShareType(Platform.SHARE_IMAGE);
+        shareParams.setShareType(Platform.SHARE_WEBPAGE);
         platform.setPlatformActionListener(mPlatformActionListener);
         platform.share(shareParams);
+        mDialog.dismiss();
     }
 
     public void shareWeChat(){
@@ -102,6 +103,7 @@ public class ShareDialog {
         shareParams.setShareType(Platform.SHARE_WEBPAGE);
         platform.setPlatformActionListener(mPlatformActionListener);
         platform.share(shareParams);
+        mDialog.dismiss();
     }
 
     public void shareQQ(){
@@ -133,9 +135,13 @@ public class ShareDialog {
 
     public class ShareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-        private int[] mResId = {R.drawable.ssdk_oks_classic_sinaweibo,R.drawable.ssdk_oks_classic_wechat,R.drawable.ssdk_oks_classic_wechatmoments,
+        private int[] mResId = {
+//                R.drawable.ssdk_oks_classic_sinaweibo,
+                R.drawable.ssdk_oks_classic_wechat,R.drawable.ssdk_oks_classic_wechatmoments,
                 R.drawable.ssdk_oks_classic_qq,R.drawable.ssdk_oks_classic_qzone};
-        private String[] mNameArray = {"新浪微博","微信好友","微信朋友圈","QQ","QQ空间"};
+        private String[] mNameArray = {
+//                "新浪微博",
+                "微信好友","微信朋友圈","QQ","QQ空间"};
 
         @NonNull
         @Override
@@ -145,22 +151,23 @@ public class ShareDialog {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            final int pos = holder.getAdapterPosition();
             MyViewHolder myViewHolder = (MyViewHolder) holder;
-            myViewHolder.icon.setImageResource(mResId[position]);
-            myViewHolder.name.setText(mNameArray[position]);
+            myViewHolder.icon.setImageResource(mResId[pos]);
+            myViewHolder.name.setText(mNameArray[pos]);
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (position==0){
+                    if ("新浪微博".equals(mNameArray[pos])){
                         shareSina();
-                    }else if (position==1){
+                    }else if ("微信好友".equals(mNameArray[pos])){
                         shareWeChat();
-                    }else if (position==2){
+                    }else if ("微信朋友圈".equals(mNameArray[pos])){
                         shareWeChatMoments();
-                    }else if (position==3){
+                    }else if ("QQ".equals(mNameArray[pos])){
                         shareQQ();
-                    }else if (position==4){
+                    }else if ("QQ空间".equals(mNameArray[pos])){
                         shareQzone();
                     }
                 }
