@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements JavaScriptInterfa
         @Override
         public void onReceive(Context context, Intent intent) {
             if (PAY_RESULT_ACTION.equals(intent.getAction())){
-
+                notifyPayResult(intent.getIntExtra("result",0));
             }
         }
     };
@@ -293,9 +293,7 @@ public class MainActivity extends AppCompatActivity implements JavaScriptInterfa
     }
 
     public void aliPayResult(int code) {
-        //1:成功 0:失败
-        String jsStr = "javascript:aliPayComplete()";
-        loadJs(jsStr);
+        notifyPayResult(code);
     }
 
     @Override
@@ -304,6 +302,15 @@ public class MainActivity extends AppCompatActivity implements JavaScriptInterfa
         loadJs(jsStr);
     }
 
+
+    private void notifyPayResult(int code){
+        if (!TextUtils.isEmpty(JavaScriptInterface.mOrderId)){
+            //1:成功 0:失败
+            int result = code==1?10:-1;
+            String jsStr = "javascript:getOrderstatus('" + JavaScriptInterface.mOrderId+"','" + result + "')";
+            loadJs(jsStr);
+        }
+    }
 
 
 }

@@ -40,6 +40,8 @@ public class JavaScriptInterface {
     private JsCallbackHandler mCallbackHandler;
 
     private static final int SDK_PAY_FLAG = 1;
+
+    public static String mOrderId;
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
@@ -153,6 +155,7 @@ public class JavaScriptInterface {
     public void alipay(String orderInfo) {
         try {
             AlipayData alipayData = JsonHelper.fromJson(orderInfo,AlipayData.class);
+            mOrderId = alipayData.getOrder_id();
             if (alipayData!=null && alipayData.getPayinfo()!=null){
                 doAliPay(alipayData.getPayinfo().getPaymenet());
             }
@@ -197,6 +200,7 @@ public class JavaScriptInterface {
                 String PrepayId = jsonObject.getString("PrepayId");
                 String Sign = jsonObject.getString("Sign");
                 String TimeStamp = jsonObject.getString("TimeStamp");
+                mOrderId = jsonObject.getString("order_id");
                 doWxPay(AppId,NonceStr,Package,PartnerId,PrepayId,Sign,TimeStamp);
             }
         } catch (Exception e) {
