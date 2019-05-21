@@ -2,7 +2,10 @@ package com.android.mb.hd;
 
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -11,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -34,15 +38,32 @@ import cn.sharesdk.wechat.friends.Wechat;
 
 public class MainActivity extends AppCompatActivity implements JavaScriptInterface.JsCallbackHandler{
     private WebView webView;
-    private String webUrl = "http://hongbao.5979wenhua.com/hbapp/index.html";
+    private String webUrl = "http://www.hongdian888.com/hbapp/index.html";
 
     public static final int FILE_CHOOSER_RESULT_CODE = 5173;
     private ValueCallback<Uri> uploadMessage;
     private ValueCallback<Uri[]> uploadMessageAboveL;
+    public static final String PAY_RESULT_ACTION = "LOCAL_BROADCAST_PAY_RESULT_ACTION";
+
+    private LocalBroadcastManager mLocalBroadcastManager;
+    /**
+     * 更新用户信息广播接受者
+     */
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver(){
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (PAY_RESULT_ACTION.equals(intent.getAction())){
+
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+        mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, new IntentFilter(PAY_RESULT_ACTION));
         setContentView(R.layout.activity_main);
         initWebView();
     }
@@ -82,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements JavaScriptInterfa
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mLocalBroadcastManager.unregisterReceiver(mBroadcastReceiver);
         webView.destroy();
         webView = null;
     }
@@ -281,5 +303,7 @@ public class MainActivity extends AppCompatActivity implements JavaScriptInterfa
         String jsStr = "javascript:shareComplete('" + id + "')";
         loadJs(jsStr);
     }
+
+
 
 }
