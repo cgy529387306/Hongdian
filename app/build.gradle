@@ -6,8 +6,8 @@ android {
         applicationId "com.android.mb.hd"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 101
-        versionName "1.0.1"
+        versionCode 103
+        versionName "1.0.3"
     }
     //配置keystore签名
     signingConfigs {

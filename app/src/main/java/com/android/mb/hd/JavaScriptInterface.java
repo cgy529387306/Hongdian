@@ -104,6 +104,11 @@ public class JavaScriptInterface {
         }
     }
 
+    @JavascriptInterface
+    public void saveImage(String url) {
+        ImageUtils.savePicture(mContext,url);
+    }
+
 
     @JavascriptInterface
     public void opentaobao(String content) {
